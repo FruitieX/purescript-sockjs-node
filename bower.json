@@ -1,5 +1,10 @@
 {
   "name": "purescript-sockjs-node",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FruitieX/purescript-sockjs-node.git"
+  },
   "ignore": [
     "**/.*",
     "node_modules",
