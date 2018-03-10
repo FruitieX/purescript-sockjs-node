@@ -8,4 +8,4 @@ yarn add sockjs
 ```
 
 ## Example usage
-See [example/ directory](/example)
+See [example/ directory](https://github.com/FruitieX/purescript-sockjs-node/tree/master/example)
