@@ -1,5 +1,5 @@
 {
-  "name": "sockjs-node-purescript",
+  "name": "purescript-sockjs-node",
   "ignore": [
     "**/.*",
     "node_modules",
