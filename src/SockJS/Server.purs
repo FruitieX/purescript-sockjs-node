@@ -21,9 +21,7 @@ type Prefix = String
 -- Server methods
 foreign import createServer_
   :: forall e
-   . EffFn1 e
-       Unit
-       Server
+   . Eff e Server
 
 foreign import installHandlers_
   :: forall e
@@ -71,9 +69,8 @@ foreign import onClose_
 -- Creates a new SockJS server instance
 createServer
   :: forall e
-   . Unit
-  -> Eff e Server
-createServer = runEffFn1 createServer_
+   . Eff e Server
+createServer = createServer_
 
 -- | Installs SockJS' handlers into given Node.Server instance
 installHandlers

@@ -35,7 +35,7 @@ main = do
     -- dummy Node.HTTP request handler
     \req res -> end (HTTP.responseAsStream res) $ pure unit
 
-  sockjs <- SockJS.createServer unit
+  sockjs <- SockJS.createServer
   SockJS.installHandlers sockjs http "/sockjs"
   SockJS.onConnection sockjs handleConnection
 
