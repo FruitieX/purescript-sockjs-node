@@ -9,3 +9,9 @@ yarn add sockjs
 
 ## Example usage
 See [example/ directory](https://github.com/FruitieX/purescript-sockjs-node/tree/master/example)
+
+Run the example with:
+
+```
+pulp run --include example
+```
