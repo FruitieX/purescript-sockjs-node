@@ -13,5 +13,6 @@ See [example/ directory](https://github.com/FruitieX/purescript-sockjs-node/tree
 Run the example with:
 
 ```
+yarn add sockjs
 pulp run --include example
 ```
