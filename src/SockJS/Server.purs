@@ -2,8 +2,8 @@ module SockJS.Server where
 
 import Prelude
 
-import Control.Monad.Eff (Eff)
-import Control.Monad.Eff.Uncurried (EffFn1, EffFn2, EffFn3, mkEffFn1, runEffFn1, runEffFn2, runEffFn3)
+import Effect (Effect)
+import Effect.Uncurried (EffectFn1, EffectFn2, EffectFn3, mkEffectFn1, runEffectFn1, runEffectFn2, runEffectFn3)
 import Node.HTTP as HTTP
 
 -- | SockJS server object
@@ -20,108 +20,94 @@ type Prefix = String
 
 -- Server methods
 foreign import createServer_
-  :: forall e
-   . Eff e Server
+  :: Effect Server
 
 foreign import installHandlers_
-  :: forall e
-   . EffFn3 e
+  :: EffectFn3
        Server
        HTTP.Server
        Prefix
        Unit
 
 foreign import onConnection_
-  :: forall e
-   . EffFn2 e
+  :: EffectFn2
        Server
-       (EffFn1 e Connection Unit)
+       (EffectFn1 Connection Unit)
        Unit
 
 -- Connection methods
 foreign import write_
-  :: forall e
-   . EffFn2 e
+  :: EffectFn2
        Connection
        Message
        Unit
 
 foreign import end_
-  :: forall e
-   . EffFn1 e
+  :: EffectFn1
        Connection
        Unit
 
 foreign import onData_
-  :: forall e
-   . EffFn2 e
+  :: EffectFn2
        Connection
-       (EffFn1 e Message Unit)
+       (EffectFn1 Message Unit)
        Unit
 
 foreign import onClose_
-  :: forall e
-   . EffFn2 e
+  :: EffectFn2
        Connection
-       (Eff e Unit)
+       (Effect Unit)
        Unit
 
 -- Creates a new SockJS server instance
 createServer
-  :: forall e
-   . Eff e Server
+  :: Effect Server
 createServer = createServer_
 
 -- | Installs SockJS' handlers into given Node.Server instance
 installHandlers
-  :: forall e
-   . Server
+  :: Server
   -> HTTP.Server
   -> Prefix
-  -> Eff e Unit
+  -> Effect Unit
 installHandlers server prefix httpServer =
-  runEffFn3 installHandlers_ server prefix httpServer
+  runEffectFn3 installHandlers_ server prefix httpServer
 
 -- | Attaches a connection event handler to a Server
 onConnection
-  :: forall e
-   . Server
-  -> (Connection -> Eff e Unit)
-  -> Eff e Unit
+  :: Server
+  -> (Connection -> Effect Unit)
+  -> Effect Unit
 onConnection server callback =
-  runEffFn2 onConnection_ server $ mkEffFn1 callback
+  runEffectFn2 onConnection_ server $ mkEffectFn1 callback
 
 -- | Write a message over a Connection
 write
-  :: forall e
-   . Connection
+  :: Connection
   -> Message
-  -> Eff e Unit
+  -> Effect Unit
 write conn message =
-  runEffFn2 write_ conn message
+  runEffectFn2 write_ conn message
 
 -- | Close a Connection
 end
-  :: forall e
-   . Connection
-  -> Eff e Unit
+  :: Connection
+  -> Effect Unit
 end conn =
-  runEffFn1 end_ conn
+  runEffectFn1 end_ conn
 
 -- | Attaches a data event handler to a Connection
 onData
-  :: forall e
-   . Connection
-  -> (Message -> Eff e Unit)
-  -> Eff e Unit
+  :: Connection
+  -> (Message -> Effect Unit)
+  -> Effect Unit
 onData conn callback =
-  runEffFn2 onData_ conn $ mkEffFn1 callback
+  runEffectFn2 onData_ conn $ mkEffectFn1 callback
 
 -- | Attaches a close event handler to a Connection
 onClose
-  :: forall e
-   . Connection
-  -> Eff e Unit
-  -> Eff e Unit
+  :: Connection
+  -> Effect Unit
+  -> Effect Unit
 onClose conn callback =
-  runEffFn2 onClose_ conn callback
+  runEffectFn2 onClose_ conn callback
